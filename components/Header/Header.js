@@ -7,16 +7,28 @@ import { useRouter } from "next/router"; // Pour rediriger après déconnexion
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
+  const [userId, setUserId] = useState()
+
+  useEffect(() => {
+    const user = localStorage.getItem("blog-userId")
+    if (user) {
+      setUserId(user)
+    }
+  }, []);
 
   // Vérifie l'état de connexion lors du chargement
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // Si un token existe, l'utilisateur est connecté
-  }, []);
+    if (userId) {
+      setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
+    }
+  }, [userId]);
+
 
   // Fonction de déconnexion
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Supprime le token
+    localStorage.removeItem("blog-userId"); // Supprime le token
     setIsLoggedIn(false); // Met à jour l'état local
     router.push("/"); // Redirige vers la page d'accueil
   };
@@ -29,7 +41,7 @@ function Header() {
       <div className={styles.navButtons}>
         {isLoggedIn ? (
           // Si connecté, affiche le bouton "Déconnexion"
-          <Button onClick={handleLogout}>Déconnexion</Button>
+          <button onClick={handleLogout}>Déconnexion</button>
         ) : (
           // Sinon, affiche les boutons "Se connecter" et "Créer un compte"
           <>

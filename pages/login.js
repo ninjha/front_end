@@ -29,6 +29,9 @@ export default function Login() {
       const dataFromBack = await res.json();
 
       if (dataFromBack.result) {
+        console.log(dataFromBack);
+        localStorage.setItem("blog-userId", dataFromBack.userId)
+
         resetConnectForm(); // Réinitialise le formulaire
         setErrorMsg(""); // Efface le message d'erreur
         toast.success("Connexion réussie !");

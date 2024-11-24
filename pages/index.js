@@ -8,12 +8,12 @@ export default function Index() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch("http://localhost:3001/articles"); // Route pour tous les articles
+        const response = await fetch("http://localhost:3000/articles"); // Route pour tous les articles
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des articles");
         }
         const data = await response.json();
-        setArticles(data);
+        setArticles(data.data);
       } catch (err) {
         setError("Impossible de charger les articles");
       } finally {
@@ -43,4 +43,5 @@ export default function Index() {
     </div>
   );
 }
+
 
